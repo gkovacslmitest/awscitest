@@ -4,7 +4,7 @@ phases:
         commands:
             - echo RUNNING PRE_BUILD COMMANDS...
             - echo -n "$CODEBUILD_BUILD_ID" | sed "s/.*:\([[:xdigit:]]\{7\}\).*/\1/" > /tmp/build_id.out
-            - printf "%s:%s" "$REPOSITORY_URI" "$(cat /tmp/build_id.out)" > /tmp/build_tag.out
+            - printf "kgdockertest:1" > /tmp/build_tag.out
             - printf '{"tag":"%s"}' "$(cat /tmp/build_id.out)" > /tmp/build.json
             - $(aws ecr get-login)
     build:

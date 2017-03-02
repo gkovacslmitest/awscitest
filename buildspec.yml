@@ -12,7 +12,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build --tag "$(cat /tmp/build_tag.out)" .
+      - docker build -t "$(cat /tmp/build_tag.out)" -t latest .
   post_build:
     commands:
       - echo Build completed on `date`

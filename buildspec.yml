@@ -7,7 +7,7 @@ phases:
       - printf "%s:%s" "$REPOSITORY_URI" "$(cat /tmp/build_id.out)" > /tmp/build_tag.out
       - printf '{"tag":"%s"}' "$(cat /tmp/build_id.out)" > /tmp/build.json
       - echo Logging in to Amazon ECR
-      - $(aws ecr get-login --region eu-central-1)
+      - $(aws ecr get-login --region eu-west-1)
   build:
     commands:
       - echo Build started on `date`

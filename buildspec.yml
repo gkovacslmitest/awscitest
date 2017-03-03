@@ -5,7 +5,7 @@ phases:
     commands:
       - echo -n "$CODEBUILD_BUILD_ID" | sed "s/.*:\([[:xdigit:]]\{7\}\).*/\1/" > /tmp/build_id.out
       - printf "%s:%s" "$REPOSITORY_URI" "$(cat /tmp/build_id.out)" > /tmp/build_tag.out
-      - printf "%s:latest" "$REPOSITORY_URI" > /tmp/build_tag.out
+      - printf "%s:latest" "$REPOSITORY_URI" > /tmp/build_tag_latest.out
       - printf '{"tag":"%s"}' "$(cat /tmp/build_id.out)" > /tmp/build.json
       - echo Logging in to Amazon ECR
       - $(aws ecr get-login --region eu-west-1)
@@ -13,13 +13,12 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t "$(cat /tmp/build_tag.out)" -t latest .
+      - docker build -t "$(cat /tmp/build_tag.out)" -t "$(cat /tmp/build_tag_latest.out)" .
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push "$(cat /tmp/build_tag.out)"
-      - docker push latest
 artifacts:
   files: /tmp/build.json
   discard-paths: yes

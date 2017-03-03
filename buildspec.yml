@@ -18,8 +18,10 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image...
+      - printf "Pushing the Docker image %s..." "$(cat /tmp/build_tag.out)"
       - docker push "$(cat /tmp/build_tag.out)"
+      - printf "Pushing the Docker image %s..." "$(cat /tmp/build_tag_latest.out)"
+      - docker push "$(cat /tmp/build_tag_latest.out)"
 artifacts:
   files: /tmp/build.json
   discard-paths: yes
